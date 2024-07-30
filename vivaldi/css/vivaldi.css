@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    background-color: #f44336;
+    color: white;
+    margin: 0;
+    padding: 20px;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+li {
+    background-color: #f2f2f2;
+    margin: 10px;
+    padding: 20px;
+}
+h2 {
+    margin: 0;
+}
+p {
+    margin: 0;
+}
+a {
+    color: #f44336;
+    text-decoration: none;
+    word-wrap: break-word;
+}
+.footer {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: center;
+}
+/* 添加一些基本的重置样式 */
+body, h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* 右上角链接的样式 */
+.top-right-links {
+    position: absolute;
+    top: 10px; /* 距离顶部10像素 */
+    right: 10px; /* 距离右侧10像素 */
+}
+
+.top-right-links h6 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin-left: 10px; /* 为链接之间提供一些间隔 */
+}
+
+h6 a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+/*捐赠二维码样式*/
+.donation-qr-code {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: none;
+    z-index: 10;
+}
+
+.donation-qr-code img {
+    width: 150px; /* 二维码图片的宽度，根据需要调整 */
+    height: auto;
+    margin: 10px; /* 添加一些外边距 */
+}
+
+.donation-button:hover .donation-qr-code {
+    display: block;
+}
+
+.donation-button {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 5;
+    cursor: pointer;
+}
+
+.donation-button button {
+    font-size: 24px !important;
+}
+
+.donation-button:hover button {
+    display: none;
+}
+
+.donation-qr-code span {
+    display: block;
+    text-align: center;
+}

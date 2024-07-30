@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>下载Firefox | 熙然</title>
+		<meta name="keywords" content="下载 firefox,firefox 离线下载,firefox 离线包,firefox 在线下载,firefox 下载,firefox 绿化版,firefox 免安装包">
+		<meta name="description" content="免费提供 firefox 离线包在线下载，定时自动更新最新下载地址">
+		<link rel="icon" href="./img/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="./css/bootstrap.min.css">
+		<link rel="stylesheet" href="./css/donate.css">
+		<!--<link rel="stylesheet" href="./css/credits.css">-->
+		<script src="./js/jquery.min.js"></script>
+		<script src="./js/bootstrap.min.js"></script>
+		<script src="./js/moment-with-locales.min.js"></script>
+		<!--<script async src="./js/busuanzi.pure.mini.js"></script>-->
+		<!--<script async src="https://busuanzi.icodeq.com/busuanzi.pure.mini.js"></script>-->
+		<script async src="https://busuanzi.sukap.cn/busuanzi.pure.mini.js"></script>
+		<style>
+			.download-url,.hash{word-wrap:break-word;word-break:break-all}.bd-callout{padding:1.25rem;margin-top:1.25rem;margin-bottom:1.25rem;color:#664d03;background-color:#fff3cd;border-left:.25rem solid #ffe69c}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="h1 mt-2">
+				<b>下载Firefox</b>
+			</h1>
+			<h5>最后同步时间：<b id="update-time"></b>
+			</h5>
+			<h6 class="mb-3">这里的安装包来自Mozila官方，含更新模块。下载后直接双击运行，等待后台安装即可</h6>
+			<div class="row">
+    			<h6 class="col"><a href="https://tools.xixiranran.com/chrome/" target="_blank">下载Chrome</a></h6>
+    			<h6 class="col"><a href="https://tools.xixiranran.com/vivaldi/" target="_blank">下载Vivaldi</a></h6>
+    			<h6 class="col"><a href="https://tools.xixiranran.com/edge/" target="_blank">下载Edge</a></h6>
+    			<h6 class="col"><a href="https://tools.xixiranran.com/brave/" target="_blank">下载Brave</a></h6>
+    			<h6 class="col"><a href="https://tools.xixiranran.com/cent/" target="_blank">下载Cent</a></h6>
+    		</div>
+			<div class="bd-callout">Mozila<a href="https://support.mozilla.org/zh-CN/kb/%E7%81%AB%E7%8B%90-%E7%94%A8%E6%88%B7-Windows-7-8-%E5%92%8C-8.1-%E8%BD%AC%E7%A7%BB-%E5%BB%B6%E6%9C%9F-%E6%94%AF%E6%8C%81" target="_blank">宣布</a>，从 2023 年初起 firefox 浏览器将停止对 Windows 7 / 8 / 8.1 的支持，使用以上系统的用户请下载 <code>Win7最终版：</code><a href="http://ftp.mozilla.org/pub/firefox/releases/115.0/win32/zh-CN/Firefox%20Setup%20115.0.exe" target="_blank">115.0_x86</a>&nbsp;&nbsp;/&nbsp;&nbsp;<a href="http://ftp.mozilla.org/pub/firefox/releases/115.0/win64/zh-CN/Firefox%20Setup%20115.0.exe" target="_blank">115.0_x64</a>。</div>
+			<ul class="nav nav-tabs mb-3" id="tabs">
+				<li class="nav-item" title="Windows32位版">
+					<a class="nav-link active" data-toggle="tab" data-system="win_x86" href="#tab-download">Win32位</a>
+				</li>
+				<li class="nav-item" title="Windows64位版">
+					<a class="nav-link" data-toggle="tab" data-system="win_x64" href="#tab-download">Win64位</a>
+				</li>
+				<!--<li class="nav-item" title="Windows7最终版">-->
+				<!--	<a class="nav-link" data-toggle="tab" data-system="win7" href="#tab-download">Win7最终版</a>-->
+				<!--</li>-->
+				<!--<li class="nav-item" title="Mac版">-->
+				<!--	<a class="nav-link" data-toggle="tab" data-system="mac" href="#tab-download">MacOS</a>-->
+				<!--</li>-->
+				<!--<li class="nav-item" title="自用firefox">-->
+				<!--	<a class="nav-link" data-toggle="tab" data-system="me" href="#tab-me">自用firefox</a>-->
+				<!--</li>-->
+                <li class="nav-item" title="捐赠">
+                    <a class="nav-link" data-toggle="tab" data-system="donation" href="#tab-donation">捐赠</a>
+                </li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane show active" id="tab-download">
+					<div class="btn-group btn-group-toggle mb-3" id="version-labels" data-toggle="buttons"></div>
+					<hr class="mt-0">
+					<span>最新版本：<b id="info-version"></b>
+					</span>
+					<br>
+					<span>文件大小：<b id="info-size"></b>
+					</span>
+					<br>
+					<span>更新时间：<b id="info-time"></b>
+					</span>
+					<br>
+					<span>CRC32C：<b class="hash" id="info-crc32c"></b>
+					</span>
+					<br>
+					<span>MD5：<b class="hash" id="info-md5"></b>
+					</span>
+					<hr>
+					<h6>
+						<b>下载地址</b>
+					</h6>
+					<ol id="info-urls"></ol>
+				</div>
+				<div class="tab-pane" id="tab-donation">
+					<h6>如果这个网站对您有帮助，欢迎微信或支付宝扫一扫支持我，谢谢。</h6>
+					<div class="row">
+						<img class="img-fluid col-6" src="./img/wechat.jpg" alt="">
+						<img class="img-fluid col-6" src="./img/alipay.jpg" alt="">
+					</div>
+				</div>
+				<div class="tab-pane" id="tab-me">
+					<h6>这里是我自用的firefox，内置了大量好用的扩展程序及脚本，如果你不想自己配置，推荐你下载使用。</h6>
+					<div class="row">
+						&nbsp;&nbsp;&nbsp;链接：<a href="https://caiyun.139.com/m/i?115CnUlxveED2" target="_blank">https://caiyun.139.com/m/i?115CnUlxveED2</a>
+						&nbsp;&nbsp;提取码：yKYT
+						复制内容打开移动云盘PC客户端，操作更方便哦
+					</div>
+				</div>
+			</div>
+			<div class="text-center mt-3">
+			    <!--<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>-->
+			    <!--本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次-->
+                <!--本站总访问量 <span id="busuanzi_value_site_pv"></span> 次-->
+                <!--本站总访客数 <span id="busuanzi_value_site_uv"></span> 人-->
+                您是访问本站的第<span id="busuanzi_value_page_uv"></span>个小伙伴<br />
+                <!--本站已稳定运行了<span id="sitetime"  style="color: #3f7fe0;" ></span>-->
+                本站已稳定运行了<span id="sitetime"></span>
+				<div>Copyright &copy; 2024 <a href="https://www.xixiranran.com" target="_blank">www.xixiranran.com</a> All Rights Reserved.</div>
+              <!--<p>&copy; 2024 熙然. 保留所有权利。</p>-->
+              <!--<div>如有任何问题，请通过 <a href="mailto:970852638@qq.com">邮箱</a> 与我联系。</div>-->
+			</div>
+		</div>
+        <!-- 捐赠按钮，悬停时显示二维码 -->
+        <div class="donation-button">
+            <button>捐赠</button>
+            <div class="donation-qr-code">
+                <span>微信捐赠</span>
+                <img src="./img/wechat.jpg" alt="微信捐赠二维码">
+                <span>支付宝捐赠</span>
+                <img src="./img/alipay.jpg" alt="支付宝捐赠二维码">
+            </div>
+        </div>
+		<script src="./js/time.js"></script>
+		<script src="./js/main.min.js"></script>
+	</body>
+</html>
