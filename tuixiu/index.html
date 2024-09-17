@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>法定退休年龄计算器</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            max-width: 640px;
+            margin: auto;
+        }
+
+        .top-nav,
+        .breadcrumb {
+            max-width: 640px;
+        }
+
+        .computer-page-card {
+            background-color: #fff;
+            border-radius: 0.32rem;
+            margin: 0 0.16rem;
+            padding: 0.32rem;
+        }
+
+        .policy-card {
+            margin-top: 1.16rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row computer-page-card">
+            <div class="col-xs-12" style="margin-top: 20px">
+                <h1 class="text-center">法定退休年龄计算器</h1>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="mb-3">
+                            <label class="input-group-addon">出生年月</label>
+                            <input type="month" class="form-control" id="birthdate">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="mb-3">
+                        <label class="input-group-addon">性别及人员类型</label>
+                        <select class="form-control" id="type">
+                            <option value="">请选择</option>
+                            <option value="1">男职工</option>
+                            <option value="2">原法定退休年龄五十五周岁的女职工</option>
+                            <option value="3">原法定退休年龄五十周岁的女职工</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6 mt-3">
+                <button type="button" class="btn btn-success" id="submit">计算</button>
+                <button type="button" class="btn btn-danger" id="reset" style="display: none;">重置</button>
+            </div>
+
+            <div class="col-xs-12 mt-3" id="result-container" style="display: none;">
+                <b>您的改革后法定退休年龄为：<span id="result" style="color: #47a447"></span></b>
+                <br />
+                <b>您的改革后退休时间为：<span id="result_time" style="color: #47a447"></span></b>
+                <br />
+                <b>您的延迟月数为：<span id="result_month" style="color: #47a447"></span></b>
+            </div>
+            
+            <div class="col-xs-6 mt-3">
+                <button type="button" class="btn btn-info" id="screenshot" style="display: none;">生成截图并复制到剪贴板</button>
+            </div>
+
+            <div class="computer-page-card policy-card">
+                <p style="left: 30px; font-size: 14px; margin-top: 17px">
+                    说明：按照<a
+                        href="https://www.mohrss.gov.cn/SYrlzyhshbzb/ztzl/zt202409/qwfb/202409/t20240913_525781.html">《关于实施渐进式延迟法定退休年龄的决定》</a>附表对照关系，您通过法定退休年龄计算器，选择出生年月、性别及人员类型，即可计算出对应的改革后法定退休年龄、改革后退休时间、延迟月数。
+                </p>
+            </div>
+            <div>&copy; 2024 <a href="https://www.xixiranran.com" target="_blank">www.xixiranran.com</a> All Rights Reserved.</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script>
+        $("#submit").click(function () {
+            var birthdate = $("#birthdate").val();
+            var type = $("#type").val();
+
+            if (!birthdate || type === "") {
+                alert("请选择出生年月及性别");
+                return false;
+            }
+
+            var birthDateObj = new Date(birthdate + '-01'); // 默认为每月的第一天
+            var year = birthDateObj.getFullYear();
+            var month = birthDateObj.getMonth() + 1; // getMonth() 返回的月份是从0开始的
+
+            var result = "";
+            var result_time = "";
+            var result_month = "";
+
+            // 以下是原有的计算逻辑
+            if (type == "1") {
+                if (year < 1965) {
+                    result = "60岁";
+                    result_month = "0个月";
+                    var add_date = addMonths(new Date(year, month - 1, 1), 60 * 12);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                } else if (year > 1976) {
+                    result = "63岁";
+                    result_month = "36个月";
+                    var add_date = addMonths(new Date(year, month - 1, 1), 63 * 12);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                } else {
+                    var month_diff = Math.ceil((getMonthDiff(new Date(1965, 0, 1), new Date(year, month - 1, 1)) + 1) / 4);
+                    var year_plus = Math.floor(month_diff / 12);
+                    var month_plus = month_diff % 12;
+
+                    if (month_plus > 0) {
+                        result = (60 + year_plus) + "岁" + month_plus + "个月";
+                    } else {
+                        result = (60 + year_plus) + "岁";
+                    }
+                    var add_date = addMonths(new Date(year, month - 1, 1), 60 * 12 + month_diff);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                    result_month = month_diff + "个月";
+                }
+            } else if (type == "2") {
+                if (year < 1970) {
+                    result = "55岁";
+                    result_month = "0个月";
+                    var add_date = addMonths(new Date(year, month - 1, 1), 55 * 12);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                } else if (year > 1981) {
+                    result = "58岁";
+                    result_month = "36个月";
+                    var add_date = addMonths(new Date(year, month - 1, 1), 58 * 12);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                } else {
+                    var month_diff = Math.ceil((getMonthDiff(new Date(1970, 0, 1), new Date(year, month - 1, 1)) + 1) / 4);
+                    var year_plus = Math.floor(month_diff / 12);
+                    var month_plus = month_diff % 12;
+
+                    if (month_plus > 0) {
+                        result = (55 + year_plus) + "岁" + month_plus + "个月";
+                    } else {
+                        result = (55 + year_plus) + "岁";
+                    }
+                    var add_date = addMonths(new Date(year, month - 1, 1), 55 * 12 + month_diff);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                    result_month = month_diff + "个月";
+                }
+            } else if (type == "3") {
+                if (year < 1975) {
+                    result = "50岁";
+                    result_month = "0个月";
+                    var add_date = addMonths(new Date(year, month - 1, 1), 50 * 12);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                } else if (year > 1984) {
+                    result = "55岁";
+                    result_month = "60个月";
+                    var add_date = addMonths(new Date(year, month - 1, 1), 55 * 12);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                } else {
+                    var month_diff = Math.ceil((getMonthDiff(new Date(1975, 0, 1), new Date(year, month - 1, 1)) + 1) / 2);
+                    var year_plus = Math.floor(month_diff / 12);
+                    var month_plus = month_diff % 12;
+
+                    if (month_plus > 0) {
+                        result = (50 + year_plus) + "岁" + month_plus + "个月";
+                    } else {
+                        result = (50 + year_plus) + "岁";
+                    }
+                    var add_date = addMonths(new Date(year, month - 1, 1), 50 * 12 + month_diff);
+                    result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
+                    result_month = month_diff + "个月";
+                }
+            }
+
+            $("#result").text(result);
+            $("#result_time").text(result_time);
+            $("#result_month").text(result_month);
+            $("#result-container").show();
+            $("#reset").show();
+            $("#screenshot").show();
+        });
+
+        function getMonthDiff(dateFrom, dateTo) {
+            var diffMonths = (dateTo.getFullYear() - dateFrom.getFullYear()) * 12;
+            diffMonths -= dateFrom.getMonth();
+            diffMonths += dateTo.getMonth();
+            return diffMonths;
+        }
+
+        function addMonths(date, months) {
+            var newDate = new Date(date);
+            newDate.setMonth(newDate.getMonth() + months);
+            return newDate;
+        }
+
+        $("#reset").click(function () {
+            $("#birthdate").val("");
+            $("#type").val("");
+            $("#result").text("");
+            $("#result_time").text("");
+            $("#result_month").text("");
+            $("#result-container").hide();
+            $("#reset").hide();
+            $("#screenshot").hide();
+        });
+
+        $("#screenshot").click(function () {
+            html2canvas(document.querySelector(".computer-page-card")).then(function (canvas) {
+                //生成截图并保存到本地
+                // var url = canvas.toDataURL("image/png");
+                // var filename = "screenshot_" + new Date().toISOString().slice(0, 19).replace(/[\-:]/g, '') + ".png";
+                // var filename = `screenshot_${new Date().getTime()}.png`;
+                // var filename = `screenshot_${new Date().getFullYear()}${('0' + (new Date().getMonth() + 1)).slice(-2)}${('0' + new Date().getDate()).slice(-2)}${('0' + new Date().getHours()).slice(-2)}${('0' + new Date().getMinutes()).slice(-2)}${('0' + new Date().getSeconds()).slice(-2)}.png`;
+                // var a = document.createElement("a");
+                // a.href = url;
+                // a.download = filename;
+                // document.body.appendChild(a);
+                // a.click();
+                // document.body.removeChild(a);
+
+                // 复制图片到粘贴板
+                canvas.toBlob(function (blob) {
+                    navigator.clipboard.write([
+                        new ClipboardItem({ "image/png": blob })
+                    ]).then(function () {
+                        console.log('Image copied to clipboard');
+                    }).catch(function (err) {
+                        console.error('Could not copy image: ', err);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
