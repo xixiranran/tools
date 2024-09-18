@@ -192,13 +192,16 @@
                     result_month = "0个月";
                     var add_date = addMonths(new Date(year, month - 1, 1), 50 * 12);
                     result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
-                } else if (year <= 1984) {
+                } else if (year > 1984) {
                     result = "55岁";
                     result_month = "60个月";
                     var add_date = addMonths(new Date(year, month - 1, 1), 55 * 12);
                     result_time = add_date.getFullYear() + "年" + (add_date.getMonth() + 1) + "月";
                 } else {
-                    var month_diff = Math.ceil((getMonthDiff(new Date(1975, 0, 1), new Date(year, month - 1, 1)) + 1) / 2); var year_plus = Math.floor(month_diff / 12); var month_plus = month_diff % 12;
+                    var month_diff = Math.ceil((getMonthDiff(new Date(1975, 0, 1), new Date(year, month - 1, 1)) + 1) / 2);
+                    var year_plus = Math.floor(month_diff / 12);
+                    var month_plus = month_diff % 12;
+
                     if (month_plus > 0) {
                         result = (50 + year_plus) + "岁" + month_plus + "个月";
                     } else {
@@ -240,7 +243,11 @@
             var timeDiff = retirementDateObj - today;
             var diffYears = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365.25));
             var diffMonths = Math.floor((timeDiff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.4375));
-            return `${diffYears}年${diffMonths}个月`;
+            if (diffYears < 0 || (diffYears === 0 && diffMonths < 0)) {
+                return "您现已退休";
+            } else {
+                return `${diffYears}年${diffMonths}个月`;
+            }
         }
 
         $("#reset").click(function () {
