@@ -96,7 +96,7 @@
             </div>
 
             <div class="col-xs-6 mt-3">
-                <button type="button" class="btn btn-info" id="screenshot" style="display: none;">生成截图并复制到剪贴板</button>
+                <button type="button" class="btn btn-info" id="screenshot" style="display: none;">保存截图并复制到剪贴板</button>
             </div>
 
             <div class="computer-page-card policy-card">
@@ -114,7 +114,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
     <script>
         if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
-            document.getElementById("screenshot").textContent = "生成截图到相册";
+            document.getElementById("screenshot").textContent = "保存截图到相册";
         }
     </script>
     <script>
