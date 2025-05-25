@@ -9,7 +9,6 @@
 		<meta name="description" content="免费提供 Chrome 离线包在线下载，定时自动更新最新下载地址">
 		<link rel="icon" href="./img/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="./css/bootstrap.min.css">
-		<link rel="stylesheet" href="./css/donate.css">
 		<script src="./js/jquery.min.js"></script>
 		<script src="./js/bootstrap.min.js"></script>
 		<script src="./js/moment-with-locales.min.js"></script>
@@ -34,20 +33,23 @@
     		</div>
 			<div class="bd-callout">谷歌<a href="https://support.google.com/chrome/thread/185534985/sunsetting-support-for-windows-7-8-1-in-early-2023?hl=en" target="_blank">宣布</a>，从 2023 年初起 Chrome 浏览器将停止对 Windows 7 / 8 / 8.1 和 Windows Server 2012 及 2012 R2 的支持，使用以上系统的用户请下载 <code>Win7最终版</code>。</div>
 			<ul class="nav nav-tabs mb-3" id="tabs">
-				<li class="nav-item" title="Windows32位版">
-					<a class="nav-link active" data-toggle="tab" data-system="win_x86" href="#tab-download">Win32位</a>
+				<li class="nav-item" title="win_x32">
+					<a class="nav-link active" data-toggle="tab" data-system="win_x86" href="#tab-download">win_x32</a>
 				</li>
-				<li class="nav-item" title="Windows64位版">
-					<a class="nav-link" data-toggle="tab" data-system="win_x64" href="#tab-download">Win64位</a>
+				<li class="nav-item" title="win_x64">
+					<a class="nav-link" data-toggle="tab" data-system="win_x64" href="#tab-download">win_x64</a>
 				</li>
-				<li class="nav-item" title="Windows7最终版">
-					<a class="nav-link" data-toggle="tab" data-system="win7" href="#tab-download">Win7最终版</a>
+				<li class="nav-item" title="win_arm64">
+					<a class="nav-link" data-toggle="tab" data-system="win_arm64" href="#tab-download">win_arm64</a>
 				</li>
-				<li class="nav-item" title="Mac版">
-					<a class="nav-link" data-toggle="tab" data-system="mac" href="#tab-download">MacOS</a>
+				<li class="nav-item" title="win7">
+					<a class="nav-link" data-toggle="tab" data-system="win7" href="#tab-download">win7</a>
 				</li>
-				<li class="nav-item" title="自用Chrome">
-					<a class="nav-link" data-toggle="tab" data-system="me" href="#tab-me">自用Chrome</a>
+				<li class="nav-item" title="Mac">
+					<a class="nav-link" data-toggle="tab" data-system="mac" href="#tab-download">Mac</a>
+				</li>
+				<li class="nav-item" title="定制">
+					<a class="nav-link" data-toggle="tab" data-system="me" href="#tab-me">定制</a>
 				</li>
 			</ul>
 			<div class="tab-content">
